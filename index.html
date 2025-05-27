@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>无崖子主页</title>
+    <style>
+        /* 选项卡容器样式 */
+        .tab-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        /* 选项卡按钮样式 */
+        .tab-buttons {
+            margin-bottom: -1px; /* 让按钮与内容区域重叠1px */
+        }
+
+        /* ---------- 修改选项卡按钮文字在此处 ---------- */
+        .tab-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #f1f1f1;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        /* 活动选项卡样式 */
+        .tab-button.active {
+            background: white;
+            border-bottom: 1px solid white; /* 覆盖下方边框 */
+        }
+
+        /* 内容区域样式 */
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+        }
+
+        /* 默认显示第一个内容区域 */
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <!-- 修改选项卡按钮文字在此处 -->
+            <!-- 每个按钮的 onclick 属性中 'tab1' 需要与对应内容区域的id匹配 -->
+            <div class="tab-button active" onclick="openTab(event, 'tab1')">PCL2下载链接</div>
+            <div class="tab-button" onclick="openTab(event, 'tab2')">使用方法</div>
+            <div class="tab-button" onclick="openTab(event, 'tab3')">关于PCL2</div>
+        </div>
+
+        <!-- 修改各选项卡内容在此处 -->
+        <div id="tab1" class="tab-content active">
+            <h2>PCL2</h2>  <!-- 修改标题 -->
+            <a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377" target="_blank"">点击下载PCL2</a>  <!-- 修改内容 -->
+            <p>请注意：本网站为试用网站</p>  <!-- 修改内容 -->
+        </div>
+
+        <div id="tab2" class="tab-content">
+            <h2>PCL2使用方法</h2>  <!-- 修改标题 -->
+            <p>内容来自B站</p>  <!-- 修改内容 -->
+            <a href="https://www.bilibili.com/video/BV1dsPCeJEQ2/?vd_source=69990a8fdd1106d03a47c43d33f4c32f" target="_blank"">点击查看使用方法</a>
+            <p>请注意：本网站为试用网站</p>
+             </ul>
+        </div>
+
+        <div id="tab3" class="tab-content">
+            <h2>关于PCL2</h2>  <!-- 修改标题 -->
+            <p>关于页</p>  <!-- 修改内容 -->
+            <img src="http://gamerunwuyazi.com/wp-content/uploads/2025/03/02e30ce7dec1fd68d9f1f0303e1c7be.png" alt="截图于PCL2关于页，可自行查看" class="tab-button">
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // 获取所有选项卡内容
+            let tabContents = document.getElementsByClassName("tab-content");
+            // 隐藏所有内容
+            for (let content of tabContents) {
+                content.style.display = "none";
+                content.classList.remove("active");
+            }
+
+            // 获取所有按钮
+            let tabButtons = document.getElementsByClassName("tab-button");
+            // 移除所有active类
+            for (let button of tabButtons) {
+                button.classList.remove("active");
+            }
+
+            // 显示当前选中内容并添加active类
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
