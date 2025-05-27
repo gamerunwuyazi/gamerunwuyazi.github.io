@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>PCL2 使用指南</title>
+    <style>
+        /* 保持原有样式不变，新增以下图片相关样式 */
+        
+        /* 图片展示容器 */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        /* 单个图片卡片 */
+        .image-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 图片样式 */
+        .feature-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* 图片说明 */
+        .img-caption {
+            padding: 15px;
+        }
+        .img-caption h3 {
+            color: #2c3e50;
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+        .img-caption p {
+            color: #7f8c8d;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">PCL2 介绍专区</h1>
+
+    <!-- 功能作用区块 -->
+    <div class="section">
+        <h2>核心功能</h2>
+        <div class="image-grid">
+            <!-- 第一张功能图 -->
+            <div class="image-card">
+                <img src="https://fz-zion-static.functorz.com/202504021200/8eb47583d03e98676346263b245799ee/project/2000000000497674/images/s-zTTyxGunPXtjQmwcRcPw==.png" 
+                     alt="智能配置界面" 
+                     class="feature-img">
+                <div class="img-caption">
+                    <h3>一键智能配置</h3>
+                    <p>自动检测系统环境，智能推荐最佳配置方案，支持自定义参数调整</p>
+                </div>
+            </div>
+
+            <!-- 第二张功能图 -->
+            <div class="image-card">
+                <img src="https://fz-zion-static.functorz.com/202504020614/c514e3866edfd8a7d714283e54a2a73c/project/2000000000497674/images/4z7tRtR0L0FbF8Wuc6srqQ==.png?x-oss-process=image/resize,h_438,w_704,m_mfit" 
+                     alt="网络优化功能" 
+                     class="feature-img">
+                <div class="img-caption">
+                    <h3>网络加速优化</h3>
+                    <p>集成多线路智能加速，实时监测网络状态，自动选择最优节点</p>
+                </div>
+            </div>
+
+            <!-- 第三张功能图 -->
+            <div class="image-card">
+                <img src="https://fz-zion-static.functorz.com/202504020614/c514e3866edfd8a7d714283e54a2a73c/project/2000000000497674/images/4z7tRtR0L0FbF8Wuc6srqQ==.png?x-oss-process=image/resize,h_438,w_704,m_mfit" 
+                     alt="插件管理系统" 
+                     class="feature-img">
+                <div class="img-caption">
+                    <h3>插件生态支持</h3>
+                    <p>开放插件API，支持安装性能监控、快捷工具等扩展插件</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用教程区块 -->
+    <div class="section">
+        <h2>视频教程</h2>
+        <p class="content">
+            点击下方按钮观看B站原创教学视频：<br>
+            <ul class="content">
+                <li>基础安装配置（01:30开始）</li>
+                <li>高级功能详解（06:45开始）</li>
+                <li>常见问题解答（12:20开始）</li>
+            </ul>
+        </p>
+    </div>
+
+    <a href="https://www.bilibili.com/具体视频链接" 
+       class="tutorial-btn" 
+       target="_blank">
+       🎥 立即观看完整教程
+    </a>
+
+    <p class="note">最新版本：v2.1.5 | 更新日期：2024-04-01</p>
+</body>
+</html>
