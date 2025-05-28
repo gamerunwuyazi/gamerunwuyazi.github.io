@@ -2,104 +2,638 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>无崖子博客</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 头部样式 */
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .blog-title {
+            font-size: 3.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .blog-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            border-radius: 2px;
+        }
+
+        .blog-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
         /* 选项卡容器样式 */
         .tab-container {
-            width: 80%;
-            margin: 20px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 40px;
         }
 
         /* 选项卡按钮样式 */
         .tab-buttons {
-            margin-bottom: -1px; /* 让按钮与内容区域重叠1px */
+            display: flex;
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            padding: 0 20px;
+            flex-wrap: wrap;
         }
 
-        /* ---------- 修改选项卡按钮文字在此处 ---------- */
         .tab-button {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #f1f1f1;
-            border: 1px solid #ccc;
+            padding: 18px 30px;
+            color: rgba(255, 255, 255, 0.85);
             cursor: pointer;
-            margin-right: 5px;
-            border-radius: 5px 5px 0 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            text-align: center;
         }
 
-        /* 活动选项卡样式 */
+        .tab-button:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         .tab-button.active {
-            background: white;
-            border-bottom: 1px solid white; /* 覆盖下方边框 */
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #3498db;
         }
 
         /* 内容区域样式 */
         .tab-content {
             display: none;
-            padding: 20px;
-            border: 1px solid #ccc;
-            background: white;
+            padding: 40px;
         }
 
-        /* 默认显示第一个内容区域 */
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 博客文章样式 */
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-image {
+            height: 200px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .post-content {
+            padding: 25px;
+        }
+
+        .post-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .post-meta {
+            display: flex;
+            margin-bottom: 15px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .post-meta span {
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .post-meta i {
+            margin-right: 5px;
+            color: #3498db;
+        }
+
+        .post-excerpt {
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        /* 关于页样式 */
+        .about-container {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .author-photo {
+            flex: 0 0 250px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .author-photo img {
+            width: 100%;
+            display: block;
+        }
+
+        .about-content {
+            flex: 1;
+        }
+
+        .about-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            display: inline-block;
+        }
+
+        .about-text {
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3498db;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* 联系表单样式 */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        /* 页脚样式 */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .blog-title {
+                font-size: 2.5rem;
+            }
+
+            .tab-buttons {
+                flex-direction: column;
+                padding: 0;
+            }
+
+            .tab-button {
+                width: 100%;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .blog-posts {
+                grid-template-columns: 1fr;
+            }
+
+            .about-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
+<div class="container">
+    <header>
+        <h1 class="blog-title">无崖子博客</h1>
+        <p class="blog-subtitle">欢迎进入我的博客</p>
+    </header>
+
     <div class="tab-container">
         <div class="tab-buttons">
-            <!-- 修改选项卡按钮文字在此处 -->
-            <!-- 每个按钮的 onclick 属性中 'tab1' 需要与对应内容区域的id匹配 -->
-            <div class="tab-button active" onclick="openTab(event, 'tab1')">PCL2下载链接</div>
-            <div class="tab-button" onclick="openTab(event, 'tab2')">使用方法</div>
-            <div class="tab-button" onclick="openTab(event, 'tab3')">关于PCL2</div>
+            <div class="tab-button active" onclick="openTab(event, 'home')">
+                <i class="fas fa-home"></i> 首页
+            </div>
+            <div class="tab-button" onclick="openTab(event, 'tech')">
+                <i class="fas fa-code"></i> 技术文章
+            </div>
+            <div class="tab-button" onclick="openTab(event, 'life')">
+                <i class="fas fa-pen"></i> 生活随笔
+            </div>
+            <div class="tab-button" onclick="openTab(event, 'about')">
+                <i class="fas fa-user"></i> 关于我
+            </div>
+            <div class="tab-button" onclick="openTab(event, 'contact')">
+                <i class="fas fa-envelope"></i> 联系我
+            </div>
         </div>
 
-        <!-- 修改各选项卡内容在此处 -->
-        <div id="tab1" class="tab-content active">
-            <h2>PCL2</h2>  <!-- 修改标题 -->
-            <a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377" target="_blank">点击下载PCL2</a>  <!-- 修改内容 -->
-            <p>请注意：本网站为试用网站</p>  <!-- 修改内容 -->
+        <!-- 首页内容 -->
+        <div id="home" class="tab-content active">
+            <h2>最新文章</h2>
+            <div class="blog-posts">
+                <div class="post-card">
+                    <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                    <div class="post-content">
+                        <h3 class="post-title">深入理解JavaScript异步编程</h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> 2023-06-15</span>
+                            <span><i class="far fa-folder"></i> 前端开发</span>
+                            <span><i class="far fa-eye"></i> 1245</span>
+                        </div>
+                        <p class="post-excerpt">JavaScript异步编程是前端开发中的核心概念之一。本文将深入探讨Promise、async/await等现代异步解决方案的原理与实践...</p>
+                        <a href="#" class="read-more">阅读全文</a>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                    <div class="post-content">
+                        <h3 class="post-title">Python数据科学实战：数据清洗与分析</h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> 2023-06-10</span>
+                            <span><i class="far fa-folder"></i> 数据科学</span>
+                            <span><i class="far fa-eye"></i> 987</span>
+                        </div>
+                        <p class="post-excerpt">数据清洗是数据分析过程中最耗时的步骤之一。本文将介绍如何使用Pandas进行高效的数据清洗，以及如何利用Matplotlib进行数据可视化...</p>
+                        <a href="#" class="read-more">阅读全文</a>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                    <div class="post-content">
+                        <h3 class="post-title">高效程序员的时间管理艺术</h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> 2023-06-05</span>
+                            <span><i class="far fa-folder"></i> 个人成长</span>
+                            <span><i class="far fa-eye"></i> 1562</span>
+                        </div>
+                        <p class="post-excerpt">在信息爆炸的时代，如何高效管理时间成为每个程序员必须掌握的技能。本文分享我在时间管理上的实践经验，帮助你在有限时间内创造更大价值...</p>
+                        <a href="#" class="read-more">阅读全文</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div id="tab2" class="tab-content">
-            <h2>PCL2使用方法</h2>  <!-- 修改标题 -->
-            <p>内容来自B站</p>  <!-- 修改内容 -->
-            <a href="https://www.bilibili.com/video/BV1dsPCeJEQ2/?vd_source=69990a8fdd1106d03a47c43d33f4c32f" target="_blank">点击查看使用方法</a>
-            <p>请注意：本网站为试用网站</p>
-             </ul>
+        <!-- 技术文章内容 -->
+        <div id="tech" class="tab-content">
+            <h2>技术文章</h2>
+            <div class="blog-posts">
+                <div class="post-card">
+                    <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                    <div class="post-content">
+                        <h3 class="post-title">WebAssembly入门与实践</h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> 2023-05-28</span>
+                            <span><i class="far fa-folder"></i> 前端开发</span>
+                        </div>
+                        <p class="post-excerpt">WebAssembly是一种新的编码方式，可以在现代的网络浏览器中运行。本文将带你了解WebAssembly的基本概念，并通过实际案例展示如何将C++代码编译为Wasm模块...</p>
+                        <a href="#" class="read-more">阅读全文</a>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                    <div class="post-content">
+                        <h3 class="post-title">深入理解Docker容器技术</h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> 2023-05-20</span>
+                            <span><i class="far fa-folder"></i> 运维部署</span>
+                        </div>
+                        <p class="post-excerpt">Docker改变了现代应用的开发、交付和运行方式。本文将深入解析Docker的核心概念，包括镜像、容器、仓库等，并演示如何构建自己的Docker镜像...</p>
+                        <a href="#" class="read-more">阅读全文</a>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                    <div class="post-content">
+                        <h3 class="post-title">机器学习模型部署实战</h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> 2023-05-12</span>
+                            <span><i class="far fa-folder"></i> 人工智能</span>
+                        </div>
+                        <p class="post-excerpt">训练好的机器学习模型如何部署到生产环境？本文介绍多种模型部署方案，包括Flask API服务、TensorFlow Serving、以及云平台部署方案...</p>
+                        <a href="#" class="read-more">阅读全文</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div id="tab3" class="tab-content">
-            <h2>关于PCL2</h2>  <!-- 修改标题 -->
-            <p>关于页</p>  <!-- 修改内容 -->
-            <img src="https://gamerunwuyazi.github.io/images/1.png" alt="截图于PCL2关于页，可自行查看" class="tab-button">
+        <!-- 生活随笔内容 -->
+        <div id="life" class="tab-content">
+            <h2>生活随笔</h2>
+            <div class="blog-posts">
+                <div class="post-card">
+                    <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1501555088652-021faa106b9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                    <div class="post-content">
+                        <h3 class="post-title">徒步秦岭：一场与自然的对话</h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> 2023-05-05</span>
+                            <span><i class="far fa-folder"></i> 旅行笔记</span>
+                        </div>
+                        <p class="post-excerpt">在城市的钢筋水泥中待久了，总会渴望与自然亲近。上周末，我独自踏上了秦岭徒步之旅，这段经历不仅锻炼了我的身体，更让我的心灵得到了净化...</p>
+                        <a href="#" class="read-more">阅读全文</a>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                    <div class="post-content">
+                        <h3 class="post-title">阅读的力量：如何建立阅读习惯</h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> 2023-04-28</span>
+                            <span><i class="far fa-folder"></i> 个人成长</span>
+                        </div>
+                        <p class="post-excerpt">在信息碎片化的时代，深度阅读成为了一种稀缺能力。本文将分享我建立阅读习惯的方法，以及如何通过阅读拓展视野、提升认知...</p>
+                        <a href="#" class="read-more">阅读全文</a>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                    <div class="post-content">
+                        <h3 class="post-title">数字极简主义：减少屏幕时间的实践</h3>
+                        <div class="post-meta">
+                            <span><i class="far fa-calendar"></i> 2023-04-20</span>
+                            <span><i class="far fa-folder"></i> 生活方式</span>
+                        </div>
+                        <p class="post-excerpt">作为技术人员，我们每天面对屏幕的时间远超常人。本文记录了我实践数字极简主义的过程，分享如何减少不必要的屏幕时间，重获生活掌控权...</p>
+                        <a href="#" class="read-more">阅读全文</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 关于我内容 -->
+        <div id="about" class="tab-content">
+            <div class="about-container">
+                <div class="author-photo">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="无崖子">
+                </div>
+                <div class="about-content">
+                    <h2 class="about-title">关于无崖子</h2>
+                    <p class="about-text">
+                        你好！我是无崖子，一名全栈开发者与技术博主。拥有10年软件开发经验，专注于Web技术、云原生架构和人工智能领域。
+                    </p>
+                    <p class="about-text">
+                        我热爱开源文化，是多个开源项目的贡献者。在GitHub上分享过多个技术项目，获得了超过2000星的关注。
+                    </p>
+                    <p class="about-text">
+                        工作之余，我喜欢写作、旅行和摄影。这个博客是我分享技术见解和生活感悟的地方，希望能为读者带来有价值的内容。
+                    </p>
+                    <p class="about-text">
+                        我相信技术应该服务于人，而不是相反。我的使命是通过技术解决实际问题，同时保持对人文精神的关注。
+                    </p>
+
+                    <h3>技术栈</h3>
+                    <ul style="columns: 2; margin: 20px 0; list-style-type: none;">
+                        <li><i class="fas fa-check-circle" style="color: #2ecc71; margin-right: 8px;"></i> JavaScript/TypeScript</li>
+                        <li><i class="fas fa-check-circle" style="color: #2ecc71; margin-right: 8px;"></i> Python</li>
+                        <li><i class="fas fa-check-circle" style="color: #2ecc71; margin-right: 8px;"></i> React/Vue</li>
+                        <li><i class="fas fa-check-circle" style="color: #2ecc71; margin-right: 8px;"></i> Node.js</li>
+                        <li><i class="fas fa-check-circle" style="color: #2ecc71; margin-right: 8px;"></i> Docker/Kubernetes</li>
+                        <li><i class="fas fa-check-circle" style="color: #2ecc71; margin-right: 8px;"></i> TensorFlow/PyTorch</li>
+                        <li><i class="fas fa-check-circle" style="color: #2ecc71; margin-right: 8px;"></i> AWS/GCP</li>
+                        <li><i class="fas fa-check-circle" style="color: #2ecc71; margin-right: 8px;"></i> SQL/NoSQL</li>
+                    </ul>
+
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-zhihu"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系我内容 -->
+        <div id="contact" class="tab-content">
+            <h2 style="text-align: center; margin-bottom: 30px;">联系我</h2>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" class="form-control" placeholder="请输入您的姓名">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">电子邮箱</label>
+                        <input type="email" id="email" class="form-control" placeholder="请输入您的电子邮箱">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">主题</label>
+                        <input type="text" id="subject" class="form-control" placeholder="请输入邮件主题">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">留言内容</label>
+                        <textarea id="message" class="form-control" placeholder="请输入您的留言..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">发送消息</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <script>
-        function openTab(evt, tabName) {
-            // 获取所有选项卡内容
-            let tabContents = document.getElementsByClassName("tab-content");
-            // 隐藏所有内容
-            for (let content of tabContents) {
-                content.style.display = "none";
-                content.classList.remove("active");
-            }
+    <footer>
+        <p>© 2023 无崖子博客 | 探索 · 分享 · 成长</p>
+        <p style="margin-top: 10px;">本博客采用HTML5/CSS3构建，响应式设计适配所有设备</p>
+    </footer>
+</div>
 
-            // 获取所有按钮
-            let tabButtons = document.getElementsByClassName("tab-button");
-            // 移除所有active类
-            for (let button of tabButtons) {
-                button.classList.remove("active");
-            }
-
-            // 显示当前选中内容并添加active类
-            document.getElementById(tabName).style.display = "block";
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+<script>
+    function openTab(evt, tabName) {
+        // 获取所有选项卡内容
+        let tabContents = document.getElementsByClassName("tab-content");
+        // 隐藏所有内容
+        for (let content of tabContents) {
+            content.style.display = "none";
+            content.classList.remove("active");
         }
-    </script>
+
+        // 获取所有按钮
+        let tabButtons = document.getElementsByClassName("tab-button");
+        // 移除所有active类
+        for (let button of tabButtons) {
+            button.classList.remove("active");
+        }
+
+        // 显示当前选中内容并添加active类
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+</script>
 </body>
 </html>
